@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// GolBet.Services/DTOs/MatchDetailDto.cs
+namespace GolBet.Services.DTOs;
 
-namespace GolBet.Services.DTOs
+/// <summary>
+/// Read model for the match detail page.
+/// Inherits everything the board shows and adds detail-only data.
+/// </summary>
+public class MatchDetailDto : MatchDto
 {
-    internal class MatchDetailDto
-    {
-    }
+    /// <summary>How many bets have been placed on this match.</summary>
+    public int TotalBets { get; set; }
 }
+
