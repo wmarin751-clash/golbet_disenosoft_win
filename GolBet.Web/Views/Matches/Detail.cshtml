@@ -1,95 +1,87 @@
-﻿@* GolBet.Web/Views/Matches/Detail.cshtml *@
-@using GolBet.Entities.Enums
-@using GolBet.Web.Helpers
+﻿@using GolBet.Entities.Enums
+@using GolBet.Services.Helpers
 @model GolBet.Services.DTOs.MatchDetailDto
 @{
     ViewData["Title"] = $"{Model.HomeTeamName} vs {Model.AwayTeamName}";
 }
- 
+
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a asp-action="Index">Partidos</a></li>
         <li class="breadcrumb-item active">@Model.HomeTeamName vs @Model.AwayTeamName</li>
     </ol>
 </nav>
- 
+
 <div class="card shadow-sm">
     <div class="card-header d-flex justify-content-between align-items-center">
-        <span>📅 @Model.Date.ToColombiaTime().ToString("dddd dd MMM yyyy · h:mm tt")</span>
+        <span>📅 @Model.Date.ToString("dddd dd MMM yyyy · h:mm tt")</span>
         @switch (Model.Status)
         {
             case MatchStatus.Scheduled:
                 <span class="badge bg-primary">Programado</span>
                 break;
             case MatchStatus.InProgress:
-                <span class="badge bg-warning text-dark">En juego</span>
+                <span class="badge bg-warning">En juego</span>
                 break;
             case MatchStatus.Finished:
                 <span class="badge bg-secondary">Finalizado</span>
                 break;
         }
     </div>
- 
+
     <div class="card-body">
-        <div class="d-flex justify-content-around align-items-center text-center py-3">
+        <div class="d-flex align-items-center justify-content-around text-center">
             <div>
-                <img src="@(Model.HomeTeamCrestUrl ?? "https://placehold.co/100x100/e9ecef/6c757d?text=FC")"
-                     alt="@Model.HomeTeamName" width="100" height="100" class="mb-2" />
-                <h4>@Model.HomeTeamName</h4>
+                <img src="@(Model.HomeTeamCrestUrl ?? "https://placehold.co/80x80/e9ecef/6c757d?text=FC")"
+                     width="80" height="80" />
+                <h5 class="mt-2">@Model.HomeTeamName</h5>
             </div>
- 
-            <div class="px-4 text-nowrap">
-                @if (Model.Status == MatchStatus.Finished)
-                {
-                    <span class="display-4 fw-bold">@Model.HomeGoals - @Model.AwayGoals</span>
-                }
-                else
-                {
-                    <span class="display-6 text-muted">vs</span>
-                }
-            </div>
- 
+
+            @if (Model.Status == MatchStatus.Finished)
+            {
+                <h2 class="fw-bold">@Model.HomeGoals - @Model.AwayGoals</h2>
+            }
+            else
+            {
+                <h3 class="text-muted">vs</h3>
+            }
+
             <div>
-                <img src="@(Model.AwayTeamCrestUrl ?? "https://placehold.co/100x100/e9ecef/6c757d?text=FC")"
-                     alt="@Model.AwayTeamName" width="100" height="100" class="mb-2" />
-                <h4>@Model.AwayTeamName</h4>
+                <img src="@(Model.AwayTeamCrestUrl ?? "https://placehold.co/80x80/e9ecef/6c757d?text=FC")"
+                     width="80" height="80" />
+                <h5 class="mt-2">@Model.AwayTeamName</h5>
             </div>
         </div>
- 
+
         <hr />
- 
-        <h5 class="text-center mb-3">Cuotas</h5>
-        <div class="row g-3 justify-content-center">
-            <div class="col-md-3">
-                <div class="border rounded text-center py-3">
-                    <div class="text-muted">1 · @Model.HomeTeamName</div>
-                    <div class="fs-3 fw-bold">@Model.HomeOdds.ToString("0.00")</div>
-                </div>
+
+        <div class="d-flex justify-content-around mt-3">
+            <div class="text-center">
+                <div class="text-muted small">Local (1)</div>
+                <div class="fs-4 fw-bold">@Model.HomeOdds</div>
             </div>
-            <div class="col-md-3">
-                <div class="border rounded text-center py-3">
-                    <div class="text-muted">X · Empate</div>
-                    <div class="fs-3 fw-bold">@Model.DrawOdds.ToString("0.00")</div>
-                </div>
+            <div class="text-center">
+                <div class="text-muted small">Empate (X)</div>
+                <div class="fs-4 fw-bold">@Model.DrawOdds</div>
             </div>
-            <div class="col-md-3">
-                <div class="border rounded text-center py-3">
-                    <div class="text-muted">2 · @Model.AwayTeamName</div>
-                    <div class="fs-3 fw-bold">@Model.AwayOdds.ToString("0.00")</div>
-                </div>
+            <div class="text-center">
+                <div class="text-muted small">Visitante (2)</div>
+                <div class="fs-4 fw-bold">@Model.AwayOdds</div>
             </div>
         </div>
     </div>
- 
+
     <div class="card-footer d-flex justify-content-between align-items-center">
         <small class="text-muted">🎟️ @Model.TotalBets apuestas realizadas</small>
-        @if (Model.Status == MatchStatus.Scheduled)
-        {
-            <button class="btn btn-success" disabled
-                    title="Disponible cuando implementemos las apuestas">
-                Apostar (Pendiente por codear)
-            </button>
-        }
+        <div>
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-primary">Editar</a>
+            @if (Model.Status == MatchStatus.Scheduled)
+            {
+                <button class="btn btn-success" disabled
+                        title="Disponible cuando implementemos las apuestas">
+                    Apostar (Módulo 8)
+                </button>
+            }
+        </div>
     </div>
 </div>
-
