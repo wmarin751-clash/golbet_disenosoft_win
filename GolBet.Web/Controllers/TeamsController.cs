@@ -1,10 +1,12 @@
 ﻿// GolBet.Web/Controllers/TeamsController.cs
 using GolBet.Services.DTOs;
 using GolBet.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GolBet.Web.Controllers;
 
+[Authorize(Roles = "Admin")] // Reemplaza "Admin" por el nombre exacto del rol o constante que uses en tu proyecto
 public class TeamsController : Controller
 {
     private readonly ITeamService _teamService;
