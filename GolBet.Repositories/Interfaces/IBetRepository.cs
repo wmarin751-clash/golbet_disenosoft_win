@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using GolBet.Entities;
+using GolBet.Entities.Enums;
 
-namespace GolBet.Repositories.Interfaces
+namespace GolBet.Repositories.Interfaces;
+
+public interface IBetRepository : IGenericRepository<Bet>
 {
-    internal interface IBetRepository
-    {
-    }
+    /// <summary>Does this user already have this exact pick on this match?</summary>
+    Task<bool> ExistsAsync(int matchId, string userId, BetPick pick);
+
+    /// <summary>All bets of a user, newest first, with match and teams loaded.</summary>
+    Task<IEnumerable<Bet>> GetByUserAsync(string userId);
 }

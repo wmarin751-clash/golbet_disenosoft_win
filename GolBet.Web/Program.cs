@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 using static System.Formats.Asn1.AsnWriter;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -49,6 +50,8 @@ builder.Services.AddScoped<ITeamService, TeamService>();
 
 // Business services
 builder.Services.AddScoped<IMatchService, MatchService>();
+builder.Services.AddScoped<IBetRepository, BetRepository>();
+builder.Services.AddScoped<IBetService, BetService>();
 
 var culture = new CultureInfo("es-CO");
 CultureInfo.DefaultThreadCurrentCulture = culture;
